@@ -8,44 +8,21 @@ interval=0
 # load colors
 . ~/.config/chadwm/scripts/bar_themes/onedark
 
-
-
 cpu() {
-  # show CPU temperature from a thermal zone
-  thermal_zone=2
-  tz="/sys/class/thermal/thermal_zone${thermal_zone}/temp"
-  warn=60
+  tz="/sys/class/thermal/thermal_zone2/temp"
   if [ -r "$tz" ]; then
-    raw=$(tr -d ' \n' <"$tz" 2>/dev/null)
-    if [ -n "$raw" ] && echo "$raw" | grep -qE '^[0-9]+$'; then
-      # handle millidegree (e.g. 42000) or degree (e.g. 42)
-      if [ ${#raw} -ge 4 ]; then
-        temp=$(awk "BEGIN{printf \"%.0f\", $raw/1000}") # integer Celsius
-      else
-        temp=$raw
-      fi
-      temp_label="${temp}°C"
+    raw=$(tr -d ' \n' <"$tz")
+    if [ -n "$raw" ] && [ "$raw" -eq "$raw" ] 2>/dev/null; then
+      temp=$(( ${#raw} -ge 4 ? raw/1000 : raw ))
+      temp_label="Temp ${temp}°"
     else
-      temp_label="N/A"
+      temp_label="Temp N/A"
     fi
   else
-    temp_label="N/A"
+    temp_label="Temp N/A"
   fi
 
-  # icon / left block (keep style consistent with existing script)
-  printf "^c$black^ ^b$green^  "
-
-  if [ "$temp_label" = "N/A" ]; then
-    printf "^c$white^ ^b$grey^ %s ^b$black^" "$temp_label"
-  else
-    # choose color if above warn threshold
-    if awk "BEGIN{exit !($temp >= $warn)}"; then
-      valcol=$red
-    else
-      valcol=$white
-    fi
-    printf "^c$valcol^ %s ^b$black^" "$temp_label"
-  fi
+  printf "^c$grey^ %s" "$temp_label"
 }
 
 mem() {

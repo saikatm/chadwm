@@ -40,8 +40,15 @@ static const int new_window_attach_on_end = 1; /*  1 means the new window will a
 
 static const char *fonts[]      = {"Iosevka:style:medium:size=12" ,"JetBrainsMono Nerd Font Mono:style:medium:size=19" };
 
-// start feh to set wallpaper
-static const char *autostart[]  = { "/bin/sh", "-c", "feh --bg-scale --randomize ~/Pictures/wallpapers/* &", NULL };
+// startup items
+static const char *autostart[] = {
+	"/bin/sh", "-c", "feh --bg-scale --randomize ~/Pictures/wallpapers/* &", NULL, /* wallpaper */
+	"megasync", NULL, /* mega sync */
+	"flameshot", NULL, /* flameshot */
+    "nm-applet", NULL, /* network manager applet */
+    "parcellite", NULL, /* clipboard manager */
+	NULL
+};
 
 // theme
 #include "themes/tokyonight.h"
@@ -66,7 +73,7 @@ static const char *colors[][3]      = {
 };
 
 /* tagging */
-static char *tags[] = {"", "", "", "", ""};
+static char *tags[] = {"", "", "", "", ""};
 
 static const char* eww[] = { "eww", "-c", "/home/siduck/.config/chadwm/eww", "open" , "eww", NULL }; 
 
@@ -150,17 +157,18 @@ static const Key keys[] = {
     { MODKEY|ControlMask,           XK_n,      spawn, SHCMD("google-chrome --app=https://www.notion.so") },
     { MODKEY|ControlMask|ShiftMask, XK_n,      spawn, SHCMD("google-chrome --app=https://keep.google.com/") },
     { MODKEY|ControlMask,           XK_a,      spawn, SHCMD("google-chrome --app=https://chatgpt.com") },
-    { MODKEY|ControlMask,           XK_s,      spawn, SHCMD("google-chrome --app=https://docs.google.com/spreadsheets/u/0/") },
+    { MODKEY|ControlMask,           XK_g,      spawn, SHCMD("google-chrome --app=https://grok.com") },
     { MODKEY|ControlMask,           XK_m,      spawn, SHCMD("google-chrome --app=https://monkeytype.com/") },
-
     /* Apps */
     { MODKEY|ControlMask,           XK_f,      spawn, SHCMD("firefox") },
+    { MODKEY|ControlMask,           XK_b,      spawn, SHCMD("google-chrome-stable") },
     { MODKEY|ControlMask,           XK_h,      spawn, SHCMD("kitty -e htop") },
     { MODKEY|ControlMask,           XK_d,      spawn, SHCMD("nautilus") },
     { MODKEY|ControlMask,           XK_c,      spawn, SHCMD("gnome-calculator") },
-
-    /* Change wallpaper */
+   
+    /* System Shortcuts */
     { MODKEY,                       XK_w,      spawn, SHCMD("feh --bg-scale --randomize ~/Pictures/wallpapers/*") },
+    { MODKEY,                       XK_Escape, spawn, SHCMD("~/.config/chadwm/scripts/session_menu.sh") },
     
     // flameshot for cropped screenshot
     { 0, XK_Print, spawn, SHCMD("flameshot gui") },
@@ -169,7 +177,7 @@ static const Key keys[] = {
 
     // toggle stuff
     { MODKEY,                           XK_b,       togglebar,      {0} },
-    { MODKEY|ControlMask,               XK_t,       togglegaps,     {0} },
+    { MODKEY|ShiftMask,                 XK_t,       togglegaps,     {0} },
     { MODKEY|ShiftMask,                 XK_space,   togglefloating, {0} },
     { MODKEY,                           XK_f,       togglefullscr,  {0} },
 

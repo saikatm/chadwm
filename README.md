@@ -20,6 +20,7 @@ cd ~/.config/chadwm/
 mv eww ~/.config
 cd chadwm
 sudo make install
+press `Mod + Shift + r` to see changes without reboot.
 ```
 (Note: chmod +x all of the scripts)
 
