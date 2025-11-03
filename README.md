@@ -1,23 +1,3 @@
-# chadwm (Initial look)
-
-<img src="https://github.com/siduck/chadwm/blob/screenshots/screenshots/initial_look.png">
-<img src="https://github.com/siduck/chadwm/blob/screenshots/screenshots/col_layout.png">
-
-<img src="https://github.com/siduck/chadwm/blob/screenshots/screenshots/occ_act_tags.png">
-(empty workspaces have their color greyed out)
-
-- NOTE: This is vanilla dwm bar (status2d patch for setting colors) not dwmblocks or polybar. 
-<img src="https://github.com/siduck/chadwm/blob/screenshots/screenshots/chadwm.png">
-- The small widget on the top right is an eww widget and thats old! I've improved the eww widget.
-<img src='https://i.redd.it/t1pvmqlq3oc81.png'>
-(catppuccin theme)
-<img src="https://github.com/siduck/chadwm/blob/screenshots/screenshots/gruvchad.png">
-(gruvbox material dark)
-
-# Tag preview (while hovering tag icon)
-
-https://user-images.githubusercontent.com/59060246/223068062-d3c9847a-8713-42c7-bc9d-07247a0486a8.mp4
-
 # Requirements
 
 - dash (shell)
@@ -75,11 +55,11 @@ sudo touch /usr/share/xsessions/chadwm.desktop
 [Desktop Entry]
 Name=chadwm
 Comment=dwm made beautiful 
-Exec=/home/user/.config/chadwm/scripts/./run.sh 
+Exec=/home/user_name/.config/chadwm/scripts/./run.sh 
 Type=Application 
 ```
+- Remeber to change the `user_name`
 
-- [wallpaper](https://github.com/siduck/chadwm/blob/screenshots/screenshots/chad.png)
 
 # Recompile
 
@@ -87,7 +67,7 @@ Type=Application
 
 ```
 cd ~/.config/chadwm/chadwm
-rm config.h
+make clean
 sudo make install
 ```
 
@@ -116,13 +96,9 @@ eww open eww
 
 # Credits
 
-- HUGE THANKS to [eProTaLT83](https://www.reddit.com/user/eProTaLT83). I wanted certain features in dwm like tabbar in monocle, tagpreview etc and he implemented my ideas and created patches for me! I can't even count the number of times he has helped me :v
-- @fitrh helped with [colorful tag patch](https://github.com/fitrh/dwm/issues/1)
-- [6gk](https://github.com/6gk/fet.sh), eww's pure posix fetch functions taken from here
-- [mafetch](https://github.com/fikriomar16/mafetch), modified version of this was used as fetch in the screenshots
+-  THANKS to [chadwm](https://github.com/siduck/chadwm). 
 
 # Patches
-
 - [systray](https://gitlab.com/-/snippets/2184056)
 - systray iconsize
 - barpadding 
