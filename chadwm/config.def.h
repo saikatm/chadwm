@@ -19,7 +19,7 @@ static const int showsystray        = 1;        /* 0 means no systray */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int showtab            = showtab_auto;
 static const int toptab             = 1;        /* 0 means bottom tab */
-static const int floatbar           = 1;        /* 1 means the bar will float(don't have padding),0 means the bar have padding */
+static const int floatbar           = 0;        /* 1 means the bar will float(don't have padding),0 means the bar have padding */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const int horizpadbar        = 5;
 static const int vertpadbar         = 11;
@@ -34,14 +34,17 @@ static const char *downvol[] = { "/usr/bin/pactl", "set-sink-volume", "0", "-5%"
 static const char *mutevol[] = { "/usr/bin/pactl", "set-sink-mute",   "0", "toggle",  NULL };
 static const char *light_up[] = {"/usr/bin/light", "-A", "5", NULL};
 static const char *light_down[] = {"/usr/bin/light", "-U", "5", NULL};
-static const int new_window_attach_on_end = 0; /*  1 means the new window will attach on the end; 0 means the new window will attach on the front,default is front */
+static const int new_window_attach_on_end = 1; /*  1 means the new window will attach on the end; 0 means the new window will attach on the front,default is front */
 #define ICONSIZE 19   /* icon size */
 #define ICONSPACING 8 /* space between icon and title */
 
-static const char *fonts[]          = {"Iosevka:style:medium:size=12" ,"JetBrainsMono Nerd Font Mono:style:medium:size=19" };
+static const char *fonts[]      = {"Iosevka:style:medium:size=12" ,"JetBrainsMono Nerd Font Mono:style:medium:size=19" };
+
+// start feh to set wallpaper
+static const char *autostart[]  = { "/bin/sh", "-c", "feh --bg-scale --randomize ~/Pictures/wallpapers/* &", NULL };
 
 // theme
-#include "themes/tundra.h"
+#include "themes/tokyonight.h"
 
 static const char *colors[][3]      = {
     /*                     fg       bg      border */
@@ -63,9 +66,9 @@ static const char *colors[][3]      = {
 };
 
 /* tagging */
-static char *tags[] = {"", "", "", "", ""};
+static char *tags[] = {"", "", "", "", ""};
 
-static const char* eww[] = { "eww", "-c", "/home/siduck/.config/chadwm/eww", "open" , "eww", NULL };
+static const char* eww[] = { "eww", "-c", "/home/siduck/.config/chadwm/eww", "open" , "eww", NULL }; 
 
 static const Launcher launchers[] = {
     /* command     name to display */
@@ -81,15 +84,12 @@ static const unsigned int ulinestroke   = 2; /* thickness / height of the underl
 static const unsigned int ulinevoffset  = 0; /* how far above the bottom of the bar the line should appear */
 static const int ulineall               = 0; /* 1 to show underline on all tags, 0 for just the active ones */
 
+
 static const Rule rules[] = {
-    /* xprop(1):
-     *	WM_CLASS(STRING) = instance, class
-     *	WM_NAME(STRING) = title
-     */
-    /* class      instance    title       tags mask     iscentered   isfloating   monitor */
-    { "Gimp",     NULL,       NULL,       0,            0,           1,           -1 },
-    { "Firefox",  NULL,       NULL,       1 << 8,       0,           0,           -1 },
-    { "eww",      NULL,       NULL,       0,            0,           1,           -1 },
+    /* class                instance    title       tags mask     iscentered   isfloating   monitor */
+    { "eww",                NULL,       NULL,       0,            0,           1,           -1 },
+    { "Gnome-calculator",   NULL,       NULL,       0,            0,           True,        -1 },
+
 };
 
 /* layout(s) */
@@ -138,20 +138,34 @@ static const Key keys[] = {
     /* modifier                         key         function        argument */
 
     // brightness and audio 
-    {0,             XF86XK_AudioLowerVolume,    spawn, {.v = downvol}},
-	{0,             XF86XK_AudioMute, spawn,    {.v = mutevol }},
-	{0,             XF86XK_AudioRaiseVolume,    spawn, {.v = upvol}},
+    {0,             XF86XK_AudioLowerVolume,    spawn,  {.v = downvol}},
+	{0,             XF86XK_AudioMute,           spawn,  {.v = mutevol }},
+	{0,             XF86XK_AudioRaiseVolume,    spawn,  {.v = upvol}},
 	{0,				XF86XK_MonBrightnessUp,     spawn,	{.v = light_up}},
 	{0,				XF86XK_MonBrightnessDown,   spawn,	{.v = light_down}},
 
-    // screenshot fullscreen and cropped
-    {MODKEY|ControlMask,                XK_u,       spawn,
-        SHCMD("maim | xclip -selection clipboard -t image/png")},
-    {MODKEY,                            XK_u,       spawn,
-        SHCMD("maim --select | xclip -selection clipboard -t image/png")},
 
-    { MODKEY,                           XK_c,       spawn,          SHCMD("rofi -show drun") },
-    { MODKEY,                           XK_Return,  spawn,          SHCMD("st")},
+    /* Custom Web Apps & Utilities */
+    { MODKEY|ControlMask,           XK_t,      spawn, SHCMD("google-chrome --app=https://www.todoist.com/app") },
+    { MODKEY|ControlMask,           XK_n,      spawn, SHCMD("google-chrome --app=https://www.notion.so") },
+    { MODKEY|ControlMask|ShiftMask, XK_n,      spawn, SHCMD("google-chrome --app=https://keep.google.com/") },
+    { MODKEY|ControlMask,           XK_a,      spawn, SHCMD("google-chrome --app=https://chatgpt.com") },
+    { MODKEY|ControlMask,           XK_s,      spawn, SHCMD("google-chrome --app=https://docs.google.com/spreadsheets/u/0/") },
+    { MODKEY|ControlMask,           XK_m,      spawn, SHCMD("google-chrome --app=https://monkeytype.com/") },
+
+    /* Apps */
+    { MODKEY|ControlMask,           XK_f,      spawn, SHCMD("firefox") },
+    { MODKEY|ControlMask,           XK_h,      spawn, SHCMD("kitty -e htop") },
+    { MODKEY|ControlMask,           XK_d,      spawn, SHCMD("nautilus") },
+    { MODKEY|ControlMask,           XK_c,      spawn, SHCMD("gnome-calculator") },
+
+    /* Change wallpaper */
+    { MODKEY,                       XK_w,      spawn, SHCMD("feh --bg-scale --randomize ~/Pictures/wallpapers/*") },
+    
+    // flameshot for cropped screenshot
+    { 0, XK_Print, spawn, SHCMD("flameshot gui") },
+    { MODKEY,                           XK_space,   spawn,          SHCMD("rofi -show drun") }, // Launch Rofi with Super + Space
+    { MODKEY,                           XK_Return,  spawn,          SHCMD("kitty")},  // Launch Kitty
 
     // toggle stuff
     { MODKEY,                           XK_b,       togglebar,      {0} },
@@ -212,7 +226,7 @@ static const Key keys[] = {
     { MODKEY,                           XK_m,       setlayout,      {.v = &layouts[2]} },
     { MODKEY|ControlMask,               XK_g,       setlayout,      {.v = &layouts[10]} },
     { MODKEY|ControlMask|ShiftMask,     XK_t,       setlayout,      {.v = &layouts[13]} },
-    { MODKEY,                           XK_space,   setlayout,      {0} },
+    { MODKEY,                           XK_c,       setlayout,      {0} },
     { MODKEY|ControlMask,               XK_comma,   cyclelayout,    {.i = -1 } },
     { MODKEY|ControlMask,               XK_period,  cyclelayout,    {.i = +1 } },
     { MODKEY,                           XK_0,       view,           {.ui = ~0 } },
