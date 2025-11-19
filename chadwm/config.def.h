@@ -51,7 +51,7 @@ static const char *autostart[] = {
 };
 
 // theme
-#include "themes/tokyonight.h"
+#include "themes/onedark.h"
 
 static const char *colors[][3]      = {
     /*                     fg       bg      border */
@@ -96,7 +96,7 @@ static const Rule rules[] = {
     /* class                instance    title       tags mask     iscentered   isfloating   monitor */
     { "eww",                NULL,       NULL,       0,            0,           1,           -1 },
     { "Gnome-calculator",   NULL,       NULL,       0,            0,           True,        -1 },
-
+    { "org.gnome.clocks",   NULL,       NULL,       0,            0,           True,        -1 },
 };
 
 /* layout(s) */
@@ -159,15 +159,18 @@ static const Key keys[] = {
     { MODKEY|ControlMask,           XK_a,      spawn, SHCMD("google-chrome --app=https://chatgpt.com") },
     { MODKEY|ControlMask,           XK_g,      spawn, SHCMD("google-chrome --app=https://grok.com") },
     { MODKEY|ControlMask,           XK_m,      spawn, SHCMD("google-chrome --app=https://monkeytype.com/") },
+    { MODKEY|ControlMask,           XK_s,      spawn, SHCMD("google-chrome --app=https://docs.google.com/spreadsheets/") },
+
     /* Apps */
     { MODKEY|ControlMask,           XK_f,      spawn, SHCMD("firefox") },
     { MODKEY|ControlMask,           XK_b,      spawn, SHCMD("google-chrome-stable") },
     { MODKEY|ControlMask,           XK_h,      spawn, SHCMD("kitty -e htop") },
     { MODKEY|ControlMask,           XK_d,      spawn, SHCMD("nautilus") },
     { MODKEY|ControlMask,           XK_c,      spawn, SHCMD("gnome-calculator") },
-   
+    { MODKEY|ControlMask,           XK_x,      spawn, SHCMD("gnome-clocks") },
+
     /* System Shortcuts */
-    { MODKEY,                       XK_w,      spawn, SHCMD("feh --bg-scale --randomize ~/Pictures/wallpapers/*") },
+    { MODKEY|ShiftMask,                       XK_w,      spawn, SHCMD("feh --bg-scale --randomize ~/Pictures/wallpapers/*") },
     { MODKEY,                       XK_Escape, spawn, SHCMD("~/.config/chadwm/scripts/session_menu.sh") },
     
     // flameshot for cropped screenshot
@@ -247,7 +250,7 @@ static const Key keys[] = {
     // change border size
     { MODKEY|ShiftMask,                 XK_minus,   setborderpx,    {.i = -1 } },
     { MODKEY|ShiftMask,                 XK_p,       setborderpx,    {.i = +1 } },
-    { MODKEY|ShiftMask,                 XK_w,       setborderpx,    {.i = default_border } },
+    { MODKEY|ShiftMask,                 XK_b,       setborderpx,    {.i = default_border } },
 
     // kill dwm
     { MODKEY|ControlMask,               XK_q,       spawn,        SHCMD("killall bar.sh chadwm") },
