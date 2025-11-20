@@ -97,6 +97,7 @@ static const Rule rules[] = {
     { "eww",                NULL,       NULL,       0,            0,           1,           -1 },
     { "Gnome-calculator",   NULL,       NULL,       0,            0,           True,        -1 },
     { "org.gnome.clocks",   NULL,       NULL,       0,            0,           True,        -1 },
+    { "Org.gnome.clocks",   NULL,       NULL,       0,            0,           True,        -1 },
 };
 
 /* layout(s) */
